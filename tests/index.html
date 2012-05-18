@@ -1,0 +1,43 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>TypedFunc Tests</title>
+		<script src="../stacktrace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../TypedFunc.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<h1>TypedFunc.js Tests</h1>
+	<p>Output to window.console</p>
+	<script type="text/javascript" charset="utf-8">
+		
+		var test1 = new TypedFunc({x: {default: "A"}}, function(x){
+			console.log("x: ", x);
+		})
+
+		try { test1(); } catch(err) {console.log("ERROR: ", err)}
+		try { test1("B"); } catch(err) {console.log("ERROR: ", err)}
+		try { test1(12); } catch(err) {console.log("ERROR: ", err)}
+
+		var test2 = new TypedFunc({x: {default: "A", type: "string"}}, function(x){
+			console.log("x: ", x);
+		})
+
+		try { test2(); } catch(err) {console.log("ERROR: ", err)}
+		try { test2("C"); } catch(err) {console.log("ERROR: ", err)}
+		try { test2(42); } catch(err) {console.log("ERROR: ", err)}
+
+		var test3 = new TypedFunc("string", {}, function(a, b){
+			return a + b;
+		})
+
+		try { console.log(test3()); } catch(err) {console.log("ERROR: ", err)}
+		try { console.log(test3(1,2)); } catch(err) {console.log("ERROR: ", err)}
+		try { console.log(test3("Hello ", "World")); } catch(err) {console.log("ERROR: ", err)}
+
+
+		
+
+
+
+
+	</script>
+</html>
