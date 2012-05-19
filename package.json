@@ -1,0 +1,20 @@
+{
+  "author": "Christopher de Beer <christopherdebeer@gmail.com> (http://twitter.com/christopherdb)",
+  "name": "TypedFunc",
+  "description": "Allows creating Typed functions in Javascript with Typed arguments and default argument values. All optional.",
+  "version": "0.0.2",
+  "homepage": "github.com/christopherdebeer/typedfunc",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/christopherdebeer/TypedFunc.git"
+  },
+  "main": "TypedFunc.js",
+  "scripts": {
+    "test": "tests/test.TypedFunc.js"
+  },
+  "engines": {
+    "node": "~0.6.7"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
