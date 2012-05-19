@@ -10,7 +10,7 @@
   },
   "main": "TypedFunc.js",
   "scripts": {
-    "test": "tests/test.TypedFunc.js"
+    "test": "node tests/test.TypedFunc.js"
   },
   "engines": {
     "node": "~0.6.7"
