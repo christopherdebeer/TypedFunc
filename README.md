@@ -12,9 +12,9 @@ This library is split in two, basically divided by convension, so whether you ha
 
 * **Classical Convension** - Will throw errors when invalid argument types are passed, or if a function returns an invalid type.
 	
-	[1a Typed Functions](#1atyped-functions)
+	[1b Typed Arguments](#1a-typed-arguments)
 	
-	[1b Typed Arguments](#1b-typed-arguments)
+	[1a Typed Functions](#1b-typed-functions)
 	
 	[1c Argument Defaults](#1c-argument-defaults)
 
