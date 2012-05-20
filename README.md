@@ -27,8 +27,19 @@ This library is split in two, basically divided by convension, so whether you ha
 	[Argument Defaults](#2c-argument-defaults)
 
 
-Setup
-======
+Install & Setup
+===============
+
+**In the Browser: **
+
+Include the script in your page before using TypedFunc():
+	
+	<script type="text/javascript" src="path/to/TypedFunc.js" ></script>
+
+**In NodeJS**
+
+Install with npm: `npm install TypedFunc`
+And then require it in your project like so: var TypedFunc = require("typedFunc");
 
 You need to specify your preference of convension before using `new TypedFunc()` by doing the following:
 
