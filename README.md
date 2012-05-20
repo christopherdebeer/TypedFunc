@@ -117,6 +117,8 @@ The Node Callback Convension
 The Style, follows the `function(err, data) {}` convension from NodeJS. where errors are passed to the function itself instead of being Thrown.
 
 #2a Typed Arguments
+
+You can define any types you like for your arguments: `{x: {type: "xxxx"}}`, a string (ie: "number", "object", "string") denotes a `typeof x === xxxx` check, and an Object - such as a `new Person()` can be defined as `{x: {type: Person}}` and will perform an `x instanceof Person` check.
 	
 	// Create TypedFunc
 	var nodeJSConv = new TypedFunc({a: {type: "string"}}, function(a, callback){
@@ -137,9 +139,28 @@ The Style, follows the `function(err, data) {}` convension from NodeJS. where er
 	});
 	// outputs Success: Hello World
 
-Applying the Typed Function return concept to Callback style functions is rather tricky, but TypedFunc achieves this by replacing your callback with an interceptor and evaluating the arguments passed to it. So as can be seen below if the value passed to `callback` is not of the type `number` then a non null error will be passed to the callback.
+You can also specify Multiple argument types by providing them as an array, like so:
+
+	// Create TypedFunc
+	var nodeJSConv = new TypedFunc({a: {type: ["string", Person]}}, function(a, callback){
+		callback(null, a)
+	})
+
+	// Call TypedFuncs
+
+	var x = new Person("Dave");
+
+	nodeJSConv(x ,function(err, data){
+		if (err) console.log("Error: ", err)
+		else console.log("Success: ", data)
+	});
+
+	// this will output Success: [Object Person] ie: would work for both `numbers` and `Persons` and pass a non null error for all other argument types.
+
 
 #2b Typed Functions
+
+Applying the Typed Function return concept to Callback style functions is rather tricky, but TypedFunc achieves this by replacing your callback with an interceptor and evaluating the arguments passed to it. So as can be seen below if the value passed to `callback` is not of the type `number` then a non null error will be passed to the callback.
 	
 	// Create TypedFunc
 	var nodeJSConv("number", function(a, callback) {
@@ -176,5 +197,5 @@ MIT Licenced
 
 by Christopher de Beer 2012
 
-@christopherdb
+[@christopherdb](http://twitter.com/christopherdb)
 
