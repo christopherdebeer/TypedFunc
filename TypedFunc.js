@@ -50,9 +50,40 @@ function TypedFunc() {
         for (var key in args) {
             var typedArg = args[key];
             if (typeof typedArg.type !== 'undefined'){
-                if (typeof passedArgs[count] !== 'undefined'&&  typedArg.type !== typeof passedArgs[count]) {
-                    err = "Invalid argument type. <" + key + "> should be " + typedArg.type + " but was " + typeof passedArgs[count] + ". (Line: "+calleeLine+")";
+
+                // if single value
+                if (!isArray(typedArg.type)) {
+                    // single string type
+                    if (typeof typedArg.type === 'string') {
+                        if (typeof passedArgs[count] !== 'undefined' &&  typedArg.type !== typeof passedArgs[count]) {
+                            err = "Invalid argument type. <" + key + "> should be " + typedArg.type + " but was " + typeof passedArgs[count] + ". (Line: "+calleeLine+")";
+                        }
+                    } else {
+                    // if single instanceof
+                        cosnole.log("INSTANCE CHECK: ", !(passedArgs[count] instanceof typedArg.type))
+                        if (typeof passedArgs[count] !== 'undefined' &&  !(passedArgs[count] instanceof typedArg.type)) {
+                            err = "Invalid argument type. <" + key + "> should be " + typedArg.type + " but was " + typeof passedArgs[count] + ". (Line: "+calleeLine+")";
+                        }
+                    }                
+                } else {
+                // if array of optional types
+                    var aMatch = false;
+                    for (var y in typedArg.type) {
+                        var optionalType = typedArg.type[y];
+
+                        // x in array of optional types is a string
+                        if (typeof optionalType === "string") {
+                            if (typeof passedArgs[count] !== 'undefined' &&  optionalType === typeof passedArgs[count]) aMatch = true;
+                        } else {
+                        // x in array of optional types is an insatnceof
+                            if (typeof passedArgs[count] !== 'undefined' &&  passedArgs[count] instanceof optionalType) aMatch = true;
+                        }
+                    }
+                    // if no matches
+                    if (!aMatch) err = "Invalid argument type. <" + key + "> should be one of " + typedArg.type + " but was " + typeof passedArgs[count] + ". (Line: "+calleeLine+")";
+
                 }
+
             }
             //console.log("["+count+"] has default: ",typeof typedArg.default !== 'undefined'," value: ", passedArgs[count]);
             if (typeof typedArg.default !== 'undefined' && typeof passedArgs[count] === 'undefined') {
@@ -63,8 +94,8 @@ function TypedFunc() {
         }
         
 
-
-        var typeofType = typeof type;
+        var typeofType = typeof type; // the type of the requested Function return type, should be "string", "object", or "array"
+        if (isArray(type)) {var typeofType = "arrayOfTypes"}
 
         // if error type is "Throw"
         if (TypedFuncSettings.setup.errors.toLowerCase() === "throw") {
@@ -77,6 +108,9 @@ function TypedFunc() {
                     if (typeofType === 'string') {
                         if (typeof returned === type) return returned;
                         showError("Invalid Function type. Should return " + type + " but returned " + typeof returned + ". (Line: "+calleeLine+")");
+                    } else if (typeofType === 'arrayOfTypes') {
+                        if (anyOf(typeof returned, type)) return returned;
+                        showError("Invalid Function type. Should return " + type + " but returned " + typeof returned + ". (Line: "+calleeLine+")");
                     } else {
                         if (returned instanceof type) return returned;
                         showError("Invalid Function type. Should return " + type + " but returned " + returned + ". (Line: "+calleeLine+")");
@@ -86,23 +120,59 @@ function TypedFunc() {
         } else {
 
             if (typeof passedArgs[passedArgs.length -1] === "function") {
-                var callback = passedArgs[passedArgs.length -1];
+                var callback = passedArgs.pop();
+
+                // pass the error to thge callback
                 if (err) callback(err, null)
 
+                // Replace the actual callback with the intercept function
+                // and pass the actuall callback
+                else {
+                    // Bind the actual callback to the intercept function
+                    passedArgs.push(interceptCB.bind(this, callback));  
+                    func.apply(this, passedArgs)
+                }    
             } else {
                 func.apply( this, passedArgs );
             }
         }
     };
 
-    function test () {
-        console.log("Public Method TEST.");
+
+    // The callback Incterceptor
+    function interceptCB () {
+        var passedArgs = Array.prototype.slice.call(arguments)
+        
+        var originalCallback = passedArgs[0];
+        var err = passedArgs[1];
+
+        // console.log("passedArgs: ", passedArgs);
+        // console.log("original callback was:", originalCallback );
+        // console.log("err was: ", err)
+        
+        console.log("TODO: Callback types!");
     }
+
+    // Throw error
     function showError (err) {
         throw new Error(err);
     }
 
-    // console.log("STACK: ", new Error().stack);
+    var isArray = Array.isArray || function(obj) {
+        return toString.call(obj) == '[object Array]';
+    };
+
+    function anyOf(value, items) {
+        if (isArray(items)) {
+            for (var x in items) {
+                if (value === items[x]) return true;
+            }
+        } else {
+            if (value === items) return true;
+        }
+        return false;
+    }
+
 
     // Init
     if (ARGS.length === 3) {

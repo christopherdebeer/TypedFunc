@@ -42,6 +42,52 @@ assert.throws(function(){ test3(1, 2); }, "Test 3b: Should thow an error - Inval
 assert.doesNotThrow(function(){ test3("Hello", " World"); }, "Test 3c: Should not throw any errors.");
 
 
+// test arrays of typed function returns (ie: options)
+
+var test4 = new TypedFunc(["string", "number"], {}, function(a){
+	return a
+})
+
+assert.doesNotThrow( function(){ test4(2); }, "Test 4a: Should not throw an error.");
+assert.equal(typeof test4(2), "number", "Test 4b: Should return typeof 'number'.");
+
+assert.doesNotThrow( function(){ test4(2); }, "Test 4c: Should not throw an error.");
+assert.equal(typeof test4(2), "number", "Test 4d: Should return typeof 'number'.");
+
+assert.throws( function(){ test4({an: "object"}); }, "Test 4e: Should throw an error - Invalid function return type.");
+assert.throws( function(){ test4(["an", "array"]); }, "Test 4f: Should throw an error - Invalid function return type.");
+
+
+// creating custom types / inheritance and instanceOf checking
+
+function CustomType (x) {
+	this.prop = {x: x*2}
+}
+function CustomTypeII (x) {
+	this.prop = {x: x+2}
+}
+
+var test5 = new TypedFunc(CustomTypeII, {}, function(a){
+	return a
+})
+
+assert.throws( function(){ test5(new CustomType(2)); }, "Test 5a: Should throw an error - Invalid function return type.");
+assert.doesNotThrow( function(){ test5(new CustomTypeII(57)); }, "Test 5b: Should not throw an arror.");
+
+// arrays of types and instancesof checks for arguments
+
+var test5c = new TypedFunc({a: {type: ["string", CustomType]}, b: {default: new CustomTypeII(34)}}, function(a, b){
+	return {a: a, b: b}
+})
+
+assert.doesNotThrow(function(){ test5c(new CustomType("A")); }, "Test 5c: Should not throw an error");
+assert.doesNotThrow(function(){ test5c("Hello World"); }, "Test 5d: Should not throw an error");
+assert.doesNotThrow(function(){ test5c(new CustomType("B"), "overideDef"); }, "Test 5e: Should not throw an error");
+
+assert.throws(function(){ test5c(new CustomTypeII("A")); }, "Test 5f: Should throw an error - Invalid argument type");
+assert.throws(function(){ test5c(5,2); }, "Test 5g: Should throw an error - Invalid argument type");
+assert.throws(function(){ test5c({an: "object"}, "overideDef"); }, "Test 5h: Should throw an error - Invalid argument type");
+
 
 // Change settings for next series of tests
 // pass errors to callback functions
@@ -51,24 +97,24 @@ TypedFunc({
 	trace: false
 })
 
-var test4 = new TypedFunc({a: {type: "string"}}, function(a, callback){
+var test6 = new TypedFunc({a: {type: "string"}}, function(a, callback){
 	callback(null, "success : " + a);
 })
 
 
-test4("Hi", function(err, returns){
-	assert.equal(err, null, "Test 4a: Should return null error to the callback.");
-	assert.notEqual(returns, null, "Test 4b: Should return a non null returns to the callback.");
+test6("Hi", function(err, returns){
+	assert.equal(err, null, "Test 6a: Should return null error to the callback.");
+	assert.notEqual(returns, null, "Test 6b: Should return a non null returns to the callback.");
 });
 
-test4(23, function(err, returns){
-	assert.notEqual(err, null, "Test 4c: Should return a non null error to the callback.");
-	assert.equal(returns, null, "Test 4d: Should not return anthing other than an error to the callback.");
+test6(23, function(err, returns){
+	assert.notEqual(err, null, "Test 6c: Should return a non null error to the callback.");
+	assert.equal(returns, null, "Test 6d: Should not return anthing other than an error to the callback.");
 });
 
-test4(null, function(err, returns){
-	assert.notEqual(err, null, "Test 4e: Should return a non null error to the callback.");
-	assert.equal(returns, null, "Test 4f: Should not return anthing other than an error to the callback.");
+test6(null, function(err, returns){
+	assert.notEqual(err, null, "Test 6e: Should return a non null error to the callback.");
+	assert.equal(returns, null, "Test 6f: Should not return anthing other than an error to the callback.");
 });
 
 
