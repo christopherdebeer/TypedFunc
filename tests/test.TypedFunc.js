@@ -118,5 +118,67 @@ test6(null, function(err, returns){
 });
 
 
+
+
+
+var test7 = new TypedFunc("string", {a: {type: "string"}}, function(a, callback){
+	callback(null, "success : " + a);
+})
+
+
+test7("Hi", function(err, returns){
+	assert.equal(err, null, "Test 7a: Should return null error to the callback.");
+	assert.notEqual(returns, null, "Test 7b: Should return a non null returns to the callback.");
+});
+
+test7(23, function(err, returns){
+	assert.notEqual(err, null, "Test 7c: Should return a non null error to the callback.");
+	assert.equal(returns, null, "Test 7d: Should not return anthing other than an error to the callback.");
+});
+
+test7(null, function(err, returns){
+	assert.notEqual(err, null, "Test 7e: Should return a non null error to the callback.");
+	assert.equal(returns, null, "Test 7f: Should not return anthing other than an error to the callback.");
+});
+
+
+
+
+
+
+var test8 = new TypedFunc(["string", "number"], {a: {type: ["string", "number"]}}, function(a, callback){
+	callback(null, a);
+})
+
+
+test8("Hi", function(err, returns){
+	assert.equal(err, null, "Test 8a: Should return null error to the callback.");
+	assert.equal(typeof returns, "string", "Test 8b: Should return a string to the callback.");
+});
+
+test8(23, function(err, returns){
+	assert.equal(err, null, "Test 8c: Should return a null error to the callback.");
+	assert.equal(typeof returns, "number", "Test 8d: Should return a number to the callback.");
+});
+
+test8(null, function(err, returns){
+	assert.notEqual(err, null, "Test 8e: Should return a non null error to the callback.");
+	assert.equal(returns, null, "Test 8f: Should return the input to the callback.");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 console.log("All OK")
 

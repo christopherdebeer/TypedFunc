@@ -15,6 +15,10 @@
   "engines": {
     "node": "~0.6.7"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "tap": "~0.2.5"
+  },
+  "devDependencies": {
+    "tap": "0.2.5"
+  }
 }

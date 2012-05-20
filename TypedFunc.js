@@ -129,7 +129,7 @@ function TypedFunc() {
                 // and pass the actuall callback
                 else {
                     // Bind the actual callback to the intercept function
-                    passedArgs.push(interceptCB.bind(this, callback));  
+                    passedArgs.push(interceptCB.bind(this, callback, type));  
                     func.apply(this, passedArgs)
                 }    
             } else {
@@ -144,13 +144,45 @@ function TypedFunc() {
         var passedArgs = Array.prototype.slice.call(arguments)
         
         var originalCallback = passedArgs[0];
-        var err = passedArgs[1];
+        var type = passedArgs[1]
+        var err = passedArgs[2];
 
-        // console.log("passedArgs: ", passedArgs);
-        // console.log("original callback was:", originalCallback );
-        // console.log("err was: ", err)
+        passedArgs.shift();
+        passedArgs.shift();
+        passedArgs.shift();
+
+        // if theres already an error then pass along
+        if (err) err = err;
+        else if (typeof type === 'undefined') err = err;
+        else if (!isArray(type)) {
+
+            // if single type is string
+            if (typeof type === "string") {
+                // check each parameter
+                for (var b in passedArgs) {
+                    if (typeof passedArgs[b] !== type) err = "Invalid argument returned to callback. Expected argument ["+b+"] <"+passedArgs[b]+"> to be of type '"+type+"'.";
+                }
+            } else {
+            // if single type is instance
+                // check each parameter
+                for (var b in passedArgs) {
+                    if (!(passedArgs[b] instanceof type)) err = "Invalid argument returned to callback. Expected argument ["+b+"] <"+passedArgs[b]+"> to be of instanceof '"+type+"'.";
+                }
+            } 
+        } else {
+            for (var a in type) {
+                // if x in type options is string
+
+                // if x in type options is instance
+            }
+        }
         
-        console.log("TODO: Callback types!");
+        // re attach the err which if hopefully null
+        passedArgs.unshift(err);
+
+        // call the original callback
+        originalCallback.apply(this, passedArgs)
+
     }
 
     // Throw error
@@ -161,6 +193,7 @@ function TypedFunc() {
     var isArray = Array.isArray || function(obj) {
         return toString.call(obj) == '[object Array]';
     };
+
 
     function anyOf(value, items) {
         if (isArray(items)) {
