@@ -146,7 +146,7 @@ test7(null, function(err, returns){
 
 
 
-var test8 = new TypedFunc(["string", "number"], {a: {type: ["string", "number"]}}, function(a, callback){
+var test8 = new TypedFunc(["string", "number"], {a: {type: ["string", "number", "object"]}}, function(a, callback){
 	callback(null, a);
 })
 
@@ -166,6 +166,11 @@ test8(null, function(err, returns){
 	assert.equal(returns, null, "Test 8f: Should return the input to the callback.");
 });
 
+
+test8({an: "object"}, function(err, returns){
+	assert.notEqual(err, null, "Test 8g: Should return an error - Invalid return type");
+	assert.notEqual(returns, null, "Test 8h: Should still return invalid type")
+})
 
 
 

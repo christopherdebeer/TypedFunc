@@ -170,10 +170,20 @@ function TypedFunc() {
                 }
             } 
         } else {
-            for (var a in type) {
-                // if x in type options is string
 
-                // if x in type options is instance
+            for (var c in passedArgs) {
+
+                var aMatch = false;
+                for (var d in type) {
+                    if (typeof type[d] === 'string') {
+                        if (typeof passedArgs[c] === type[d]) aMatch = true;
+                    }
+                    else {
+                        if (passedArgs instanceof type[d]) aMatch = true;
+                    }
+                }
+
+                if (!aMatch) err = "Invalid argument type returned to callback. Expected argument ["+c+"] <"+passedArgs[c]+"> to be any of type '"+type+"'.";
             }
         }
         
