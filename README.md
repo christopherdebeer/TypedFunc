@@ -11,7 +11,7 @@ Convensions
 
 The classical Thrown Error
 	
-	// Create typedFunc
+	// Create TypedFunc
 	var classical = new TypedFunc({x: {type: string"}}, function(x){
 		return x
 	})
@@ -34,7 +34,7 @@ The Node Callback Error
 		callback(null, "success : " + a)
 	})
 
-	// Call TypedFuns
+	// Call TypedFuncs
 
 	nodeJSConv(23 ,function(err, data){
 		if (err) console.log("Error: ", err)
