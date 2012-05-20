@@ -41,6 +41,8 @@ Include the script in your page before using TypedFunc():
 Install with npm: `npm install TypedFunc`
 And then require it in your project like so: `var TypedFunc = require("typedFunc");`
 
+**Setup for Both Bowser & NodeJS**
+
 You need to specify your preference of convension before using `new TypedFunc()` by doing the following:
 
 	TypedFunc({
