@@ -90,7 +90,7 @@ You can define a function as a sprecific Type. This performs a check that your f
 	classical("Hello World")
 	// returns "Hello World"
 
-Agaim, you can specify Multiple Types for the return value, by providing an array, like so:
+Again, you can specify Multiple Types for the return value, by providing an array, like so:
 
 	var classical = new TypedFunc(["string", "number"], {}, function(x){
 		return x
@@ -99,6 +99,8 @@ Agaim, you can specify Multiple Types for the return value, by providing an arra
 	// now it will return either a "string" or an "number". and if not, will throw an error.
 
 #1c Argument Defaults
+
+Argument defaults act the same in both convensions, and mearly check for `undefined` arguments and if found replace with provided defaults.
 	
 	// Create TypedFunc
 	var classical = new TypedFunc({a {default: "A"}}, function(a){
@@ -111,6 +113,8 @@ Agaim, you can specify Multiple Types for the return value, by providing an arra
 
 The Node Callback Convension
 ============================
+
+The Style, follows the `function(err, data) {}` convension from NodeJS. where errors are passed to the function itself instead of being Thrown.
 
 #2a Typed Arguments
 	
@@ -133,6 +137,8 @@ The Node Callback Convension
 	});
 	// outputs Success: Hello World
 
+Applying the Typed Function return concept to Callback style functions is rather tricky, but TypedFunc achieves this by replacing your callback with an interceptor and evaluating the arguments passed to it. So as can be seen below if the value passed to `callback` is not of the type `number` then a non null error will be passed to the callback.
+
 #2b Typed Functions
 	
 	// Create TypedFunc
@@ -148,6 +154,8 @@ The Node Callback Convension
 	// outputs Error: Invalid function return type
 
 #2c Argument Defaults
+
+Argument defaults act the same in both convensions, and mearly check for `undefined` arguments and if found replace with provided defaults.
 
 	// Create TypedFunc
 	var nodeJSConv({a: {default: "B"}}, function(a, callback) {
