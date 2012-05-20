@@ -10,14 +10,12 @@ Convensions
 
 This library is split in two, basically divided by convension, so whether you hate callbacks ([Classical convension](#classical)), or love to Node ([Node callback convension](#node)). This library caters for your taste. Its core features are applied splightly differently for each convention (as appropriate). But Both conventions will allow you to declare Types for your arguments, as well as default values if arguments are `undefined` .
 
-* Classical Convension
-	Will throw errors when invalid argument types are passed, or if a function returns an invalid type.
+* *Classical Convension* - Will throw errors when invalid argument types are passed, or if a function returns an invalid type.
 	* Typed Functions
 	* Typed Arguments
 	* Argument Defaults
 
-* Node Callback Convension
-	Will pass the relivant error as the first parameter of your callback, if an argument type is invalid, or if values passed to your callback are of an invalid type.
+* *Node Callback Convension* - Will pass the relivant error as the first parameter of your callback, if an argument type is invalid, or if values passed to your callback are of an invalid type.
 	* Typed Functions
 	* Typed Arguments
 	* Argument Defaults
