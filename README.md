@@ -1,13 +1,21 @@
 TypedFunc
 =========
 
-Allows creating functions in Javascript with Typed arguments and defaults.
+Allows creating Typed Functions in Javascript with Typed Arguments and default argument values. All Optional.
 
 [![Build Status](https://secure.travis-ci.org/christopherdebeer/TypedFunc.png)](http://travis-ci.org/christopherdebeer/TypedFunc)
 
-
 Convensions
 ===========
+
+This library is split in two, basically divided by convension, so whether you hate callbacks ([Classical convension](#classical)), or love to Node ([Node callback convension](#node)). This library caters for your taste. Its core features are applied splightly differently for each convention (as appropriate). But Both conventions will allow you to declare Types for your arguments, as well as default values if arguments are `undefined`.
+
+Setup
+-----
+
+	TypedFunc({
+		errors: "Throw" // 
+	})
 
 The classical Thrown Error
 	
@@ -51,7 +59,7 @@ The Node Callback Error
 Typed Functions
 ===============
 	
-	// Classical
+Classical
 
 	// Create TypedFunc
 	var classical = new TypedFunc("string", function(a){
@@ -62,7 +70,7 @@ Typed Functions
 	classical(23)
 	// throws error invalid function return type
 
-	// NodeJS Convention
+NodeJS Convention
 	
 	// Create TypedFunc
 	var nodeJSConv("number", function(a, callback) {
