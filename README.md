@@ -30,7 +30,7 @@ This library is split in two, basically divided by convension, so whether you ha
 Install & Setup
 ===============
 
-**In the Browser: **
+**In the Browser:**
 
 Include the script in your page before using TypedFunc():
 	
