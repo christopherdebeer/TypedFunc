@@ -12,16 +12,19 @@ This library is split in two, basically divided by convension, so whether you ha
 
 * **Classical Convension** - Will throw errors when invalid argument types are passed, or if a function returns an invalid type.
 	
-	[1b Typed Arguments](#1a-typed-arguments)
+	[Typed Arguments](#1a-typed-arguments)
 	
-	[1a Typed Functions](#1b-typed-functions)
+	[Typed Functions](#1b-typed-functions)
 	
-	[1c Argument Defaults](#1c-argument-defaults)
+	[Argument Defaults](#1c-argument-defaults)
 
 * **Node Callback Convension** - Will pass the relivant error as the first parameter of your callback, if an argument type is invalid, or if values passed to your callback are of an invalid type.
-	* [Typed Functions](#21)
-	* [Typed Arguments](#22)
-	* [Argument Defaults](#23)
+	
+	[Typed Arguments](#2a-typed-arguments)
+	
+	[Typed Functions](#2b-typed-functions)
+	
+	[Argument Defaults](#2c-argument-defaults)
 
 
 Setup
@@ -95,7 +98,21 @@ Agaim, you can specify Multiple Types for the return value, by providing an arra
 
 	// now it will return either a "string" or an "number". and if not, will throw an error.
 
-The Node Callback Error
+#1c Argument Defaults
+	
+	// Create TypedFunc
+	var classical = new TypedFunc({a {default: "A"}}, function(a){
+		return a
+	})
+
+	// Call TypedFunc
+	classical()
+	// returns "A"
+
+The Node Callback Convension
+============================
+
+#2a Typed Arguments
 	
 	// Create TypedFunc
 	var nodeJSConv = new TypedFunc({a: {type: "string"}}, function(a, callback){
@@ -116,21 +133,7 @@ The Node Callback Error
 	});
 	// outputs Success: Hello World
 
-Typed Functions
-===============
-	
-Classical
-
-	// Create TypedFunc
-	var classical = new TypedFunc("string", function(a){
-		return a
-	})
-
-	// Call typedFunc
-	classical(23)
-	// throws error invalid function return type
-
-NodeJS Convention
+#2b Typed Functions
 	
 	// Create TypedFunc
 	var nodeJSConv("number", function(a, callback) {
@@ -144,28 +147,7 @@ NodeJS Convention
 	})  
 	// outputs Error: Invalid function return type
 
-
-
-Typed Arguments
-===============
-
-	
-
-Argument Defaults
-==================
-
-	// Classical
-
-	// Create TypedFunc
-	var classical = new TypedFunc({a {default: "A"}}, function(a){
-		return a
-	})
-
-	// Call TypedFunc
-	classical()
-	// returns "A"
-
-	// NodeJS Convention
+#2c Argument Defaults
 
 	// Create TypedFunc
 	var nodeJSConv({a: {default: "B"}}, function(a, callback) {
@@ -183,6 +165,8 @@ Argument Defaults
 
 
 MIT Licenced
-by Christopher de Beer
+
+by Christopher de Beer 2012
+
 @christopherdb
 
