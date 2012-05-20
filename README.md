@@ -10,10 +10,13 @@ Convensions
 ===========
 
 The classical Thrown Error
-
+	
+	// Create typedFunc
 	var classical = new TypedFunc({x: {type: string"}}, function(x){
 		return x
 	})
+
+	// Call TypedFuncs
 
 	classical()
 	// throws error invalid argument type
@@ -25,10 +28,13 @@ The classical Thrown Error
 	// returns "Hello World"
 
 The Node Callback Error
-
+	
+	// Create TypedFunc
 	var nodeJSConv = new TypedFunc({a: {type: "string"}}, function(a, callback){
 		callback(null, "success : " + a)
 	})
+
+	// Call TypedFuns
 
 	nodeJSConv(23 ,function(err, data){
 		if (err) console.log("Error: ", err)
@@ -46,18 +52,24 @@ Typed Functions
 ===============
 	
 	// Classical
+
+	// Create TypedFunc
 	var classical = new TypedFunc("string", function(a){
 		return a
 	})
 
+	// Call typedFunc
 	classical(23)
 	// throws error invalid function return type
 
 	// NodeJS Convention
+	
+	// Create TypedFunc
 	var nodeJSConv("number", function(a, callback) {
 		callback(null, "Success: " + a)
 	})
 
+	// Call TypedFunc
 	nodeJSConv("Test", function(err, data) {
 		if (err) console.log("Error: ", err)
 		else console.log("Success: ", data)
@@ -75,18 +87,24 @@ Argument Defaults
 ==================
 
 	// Classical
+
+	// Create TypedFunc
 	var classical = new TypedFunc({a {default: "A"}}, function(a){
 		return a
 	})
 
+	// Call TypedFunc
 	classical()
 	// returns "A"
 
 	// NodeJS Convention
+
+	// Create TypedFunc
 	var nodeJSConv({a: {default: "B"}}, function(a, callback) {
 		callback(null, "Success: " + a)
 	})
 
+	// Call TypedFunc
 	nodeJSConv("Test", function(err, data) {
 		if (err) console.log("Error: ", err)
 		else console.log("Success: ", data)
