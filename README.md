@@ -36,6 +36,8 @@ Include the script in your page before using TypedFunc():
 	
 	<script type="text/javascript" src="path/to/TypedFunc.js" ></script>
 
+If you want to enable line numbers in your errors, then you need to include `stacktrace.js` before `TypedFunc.js`.
+
 **In NodeJS**
 
 Install with npm: `npm install TypedFunc`
@@ -47,7 +49,7 @@ You need to specify your preference of convension before using `new TypedFunc()`
 
 	TypedFunc({
 		errors: "Throw", // either "Throw" or "Node"
-		trace: false // optional includes line limbers for debugging.
+		trace: false // optional, true - includes line numbers for debugging.
 	})
 
 
