@@ -5,12 +5,12 @@ Allows creating Typed Functions in Javascript with Typed Arguments and default a
 
 [![Build Status](https://secure.travis-ci.org/christopherdebeer/TypedFunc.png)](http://travis-ci.org/christopherdebeer/TypedFunc)
 
-Convensions
+Conventions
 ===========
 
-This library is split in two, basically divided by convension, so whether you hate callbacks ([Classical convension](#classical)), or love to Node ([Node callback convension](#node)). This library caters for your taste. Its core features are applied splightly differently for each convention (as appropriate). But Both conventions will allow you to declare Types for your arguments, as well as default values if arguments are `undefined` .
+This library is split in two, basically divided by convention, so whether you hate callbacks ([Classical convention](#classical)), or love to Node ([Node callback convention](#node)). This library caters for your taste. Its core features are applied splightly differently for each convention (as appropriate). But Both conventions will allow you to declare Types for your arguments, as well as default values if arguments are `undefined` .
 
-* **Classical Convension** - Will throw errors when invalid argument types are passed, or if a function returns an invalid type.
+* **Classical Convention** - Will throw errors when invalid argument types are passed, or if a function returns an invalid type.
 	
 	[Typed Arguments](#1a-typed-arguments)
 	
@@ -18,7 +18,7 @@ This library is split in two, basically divided by convension, so whether you ha
 	
 	[Argument Defaults](#1c-argument-defaults)
 
-* **Node Callback Convension** - Will pass the relivant error as the first parameter of your callback, if an argument type is invalid, or if values passed to your callback are of an invalid type.
+* **Node Callback Convention** - Will pass the relevant error as the first parameter of your callback, if an argument type is invalid, or if values passed to your callback are of an invalid type.
 	
 	[Typed Arguments](#2a-typed-arguments)
 	
@@ -45,7 +45,7 @@ And then require it in your project like so: `var TypedFunc = require("typedFunc
 
 **Setup for Both Bowser & NodeJS**
 
-You need to specify your preference of convension before using `new TypedFunc()` by doing the following:
+You need to specify your preference of convention before using `new TypedFunc()` by doing the following:
 
 	TypedFunc({
 		errors: "Throw", // either "Throw" or "Node"
@@ -115,7 +115,7 @@ Again, you can specify Multiple Types for the return value, by providing an arra
 
 #1c Argument Defaults
 
-Argument defaults act the same in both convensions, and mearly check for `undefined` arguments and if found replace with provided defaults.
+Argument defaults act the same in both conventions, and merely check for `undefined` arguments and if found replace with provided defaults.
 	
 	// Create TypedFunc
 	var classical = new TypedFunc({a {default: "A"}}, function(a){
@@ -126,10 +126,10 @@ Argument defaults act the same in both convensions, and mearly check for `undefi
 	classical()
 	// returns "A"
 
-The Node Callback Convension
+The Node Callback Convention
 ============================
 
-The Style, follows the `function(err, data) {}` convension from NodeJS. where errors are passed to the function itself instead of being Thrown.
+The Style, follows the `function(err, data) {}` convention from NodeJS. where errors are passed to the function itself instead of being Thrown.
 
 #2a Typed Arguments
 
@@ -179,7 +179,7 @@ You can also specify Multiple argument types by providing them as an array, like
 Applying the Typed Function return concept to Callback style functions is rather tricky, but TypedFunc achieves this by replacing your callback with an interceptor and evaluating the arguments passed to it. So as can be seen below if the value passed to `callback` is not of the type `number` then a non null error will be passed to the callback.
 	
 	// Create TypedFunc
-	var nodeJSConv("number", function(a, callback) {
+	var nodeJSConv= new TypedFunc("number", function(a, callback) {
 		callback(null, "Success: " + a)
 	})
 
@@ -192,10 +192,10 @@ Applying the Typed Function return concept to Callback style functions is rather
 
 #2c Argument Defaults
 
-Argument defaults act the same in both convensions, and mearly check for `undefined` arguments and if found replace with provided defaults.
+Argument defaults act the same in both conventions, and merely check for `undefined` arguments and if found replace with provided defaults.
 
 	// Create TypedFunc
-	var nodeJSConv({a: {default: "B"}}, function(a, callback) {
+	var nodeJSConv = new TypedFunc({a: {default: "B"}}, function(a, callback) {
 		callback(null, "Success: " + a)
 	})
 
