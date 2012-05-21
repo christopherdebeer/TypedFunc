@@ -170,7 +170,8 @@ You can also specify Multiple argument types by providing them as an array, like
 		else console.log("Success: ", data)
 	});
 
-	// this will output Success: [Object Person] ie: would work for both `numbers` and `Persons` and pass a non null error for all other argument types.
+	// this will output Success: [Object Person] ie: would work for both `numbers` and `Persons` 
+	// and pass a non null error for all other argument types.
 
 
 #2b Typed Functions
