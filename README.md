@@ -179,7 +179,7 @@ You can also specify Multiple argument types by providing them as an array, like
 Applying the Typed Function return concept to Callback style functions is rather tricky, but TypedFunc achieves this by replacing your callback with an interceptor and evaluating the arguments passed to it. So as can be seen below if the value passed to `callback` is not of the type `number` then a non null error will be passed to the callback.
 	
 	// Create TypedFunc
-	var nodeJSConv= TypedFunc("number", function(a, callback) {
+	var nodeJSConv = TypedFunc("number", function(a, callback) {
 		callback(null, "Success: " + a)
 	})
 
