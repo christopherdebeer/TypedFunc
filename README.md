@@ -56,7 +56,7 @@ You need to specify your preference of convention before using `new TypedFunc()`
 The Classical Convention
 ========================
 
-#1a Typed Arguments
+###1a Typed Arguments
 
 You can define any types you like for your arguments: `{x: {type: "xxxx"}}`, a string (ie: "number", "object", "string") denotes a `typeof x === xxxx` check, and an Object - such as a `new Person()` can be defined as `{x: {type: Person}}` and will perform an `x instanceof Person` check.
 	
@@ -85,7 +85,7 @@ If you'd like to be less strict, you could also specify Multiple types for an ar
 	// now it will accept either a "string" or an "number". neat!
 
 
-#1b Typed Functions
+###1b Typed Functions
 
 You can define a function as a sprecific Type. This performs a check that your function returns the required type otherwise it will throw an error.
 
@@ -113,7 +113,7 @@ Again, you can specify Multiple Types for the return value, by providing an arra
 
 	// now it will return either a "string" or an "number". and if not, will throw an error.
 
-#1c Argument Defaults
+###1c Argument Defaults
 
 Argument defaults act the same in both conventions, and merely check for `undefined` arguments and if found replace with provided defaults.
 	
@@ -131,7 +131,7 @@ The Node Callback Convention
 
 The Style, follows the `function(err, data) {}` convention from NodeJS. where errors are passed to the function itself instead of being Thrown.
 
-#2a Typed Arguments
+###2a Typed Arguments
 
 You can define any types you like for your arguments: `{x: {type: "xxxx"}}`, a string (ie: "number", "object", "string") denotes a `typeof x === xxxx` check, and an Object - such as a `new Person()` can be defined as `{x: {type: Person}}` and will perform an `x instanceof Person` check.
 	
@@ -174,7 +174,7 @@ You can also specify Multiple argument types by providing them as an array, like
 	// and pass a non null error for all other argument types.
 
 
-#2b Typed Functions
+###2b Typed Functions
 
 Applying the Typed Function return concept to Callback style functions is rather tricky, but TypedFunc achieves this by replacing your callback with an interceptor and evaluating the arguments passed to it. So as can be seen below if the value passed to `callback` is not of the type `number` then a non null error will be passed to the callback.
 	
@@ -190,7 +190,7 @@ Applying the Typed Function return concept to Callback style functions is rather
 	})  
 	// outputs Error: Invalid function return type
 
-#2c Argument Defaults
+###2c Argument Defaults
 
 Argument defaults act the same in both conventions, and merely check for `undefined` arguments and if found replace with provided defaults.
 
