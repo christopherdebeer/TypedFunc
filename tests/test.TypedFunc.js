@@ -16,7 +16,7 @@ TypedFunc({
 	trace: true
 })
 
-var test1 = new TypedFunc({x: {default: "A"}}, function(x){
+var test1 = TypedFunc({x: {default: "A"}}, function(x){
 	return x;
 })
 
@@ -29,7 +29,7 @@ assert.doesNotThrow(function(){ test1(12); }, "Test 1d: Should not throw any err
 
 console.log("1: "+ count + "/" + count+ " Basic classical argument defaults. ");
 
-var test2 = new TypedFunc({x: {default: "A", type: "string"}}, function(x){
+var test2 = TypedFunc({x: {default: "A", type: "string"}}, function(x){
 	return x;
 })
 
@@ -42,7 +42,7 @@ assert.throws(function(){ test2(42); }, "Test 2d: Should throw an error - Invali
 console.log("2: "+ count + "/" + count+ " Basic classical argument defaults /w Type. ");
 
 
-var test3 = new TypedFunc("string", {}, function(a, b){
+var test3 = TypedFunc("string", {}, function(a, b){
 	return a + b;
 })
 
@@ -56,7 +56,7 @@ console.log("3: "+ count + "/" + count+ " Basic function Return Type. ");
 
 // test arrays of typed function returns (ie: options)
 
-var test4 = new TypedFunc(["string", "number"], {}, function(a){
+var test4 = TypedFunc(["string", "number"], {}, function(a){
 	return a
 })
 
@@ -83,7 +83,7 @@ function CustomTypeII (x) {
 	this.prop = {x: x+2}
 }
 
-var test5 = new TypedFunc(CustomTypeII, {}, function(a){
+var test5 = TypedFunc(CustomTypeII, {}, function(a){
 	return a
 })
 
@@ -94,7 +94,7 @@ assert.doesNotThrow( function(){ test5(new CustomTypeII(57)); }, "Test 5b: Shoul
 
 // arrays of types and instancesof checks for arguments
 
-var test5c = new TypedFunc({a: {type: ["string", CustomType]}, b: {default: new CustomTypeII(34)}}, function(a, b){
+var test5c = TypedFunc({a: {type: ["string", CustomType]}, b: {default: new CustomTypeII(34)}}, function(a, b){
 	return {a: a, b: b}
 })
 
@@ -116,7 +116,7 @@ TypedFunc({
 	trace: false
 })
 
-var test6 = new TypedFunc({a: {type: "string"}}, function(a, callback){
+var test6 = TypedFunc({a: {type: "string"}}, function(a, callback){
 	callback(null, "success : " + a);
 })
 
@@ -143,7 +143,7 @@ console.log("6: "+ count + "/" + count+ " Basic Node Convention Argument Types. 
 
 
 
-var test7 = new TypedFunc("string", {a: {type: "string"}}, function(a, callback){
+var test7 = TypedFunc("string", {a: {type: "string"}}, function(a, callback){
 	callback(null, "success : " + a);
 })
 
@@ -168,7 +168,7 @@ console.log("7: "+ count + "/" + count+ " Node Argument & Return Types. ");
 
 
 
-var test8 = new TypedFunc(["string", "number"], {a: {type: ["string", "number", "object"]}}, function(a, callback){
+var test8 = TypedFunc(["string", "number"], {a: {type: ["string", "number", "object"]}}, function(a, callback){
 	callback(null, a);
 })
 
