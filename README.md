@@ -41,7 +41,7 @@ If you want to enable line numbers in your errors, then you need to include `sta
 **In NodeJS**
 
 Install with npm: `npm install TypedFunc`
-And then require it in your project like so: `var TypedFunc = require("typedFunc");`
+And then require it in your project like so: `var TypedFunc = require("TypedFunc");`
 
 **Setup for Both Bowser & NodeJS**
 
