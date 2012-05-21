@@ -8,7 +8,7 @@ Allows creating Typed Functions in Javascript with Typed Arguments and default a
 Conventions
 ===========
 
-This library is split in two, basically divided by convention, so whether you hate callbacks ([Classical convention](#classical)), or love to Node ([Node callback convention](#node)). This library caters for your taste. Its core features are applied splightly differently for each convention (as appropriate). But Both conventions will allow you to declare Types for your arguments, as well as default values if arguments are `undefined` .
+This library is split in two, basically divided by convention, so whether you hate callbacks ([Classical convention](#the-classical-convention)), or love to Node ([Node callback convention](#the-node-callback-convention)). This library caters for your taste. Its core features are applied splightly differently for each convention (as appropriate). But Both conventions will allow you to declare Types for your arguments, as well as default values if arguments are `undefined` .
 
 * **Classical Convention** - Will throw errors when invalid argument types are passed, or if a function returns an invalid type.
 	
