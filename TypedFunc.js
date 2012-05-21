@@ -57,6 +57,10 @@ function TypedFunc() {
         // console.log("args: ", args);
         // console.log(passedArgs);
 
+        var callabck = false;
+        if (interceptor.settings.errors.toLowerCase() === "node" && typeof passedArgs[passedArgs.length -1] === "function") {
+            callback = passedArgs.pop();
+        }
 
         for (var key in args) {
             var typedArg = args[key];
@@ -131,17 +135,20 @@ function TypedFunc() {
             }
         } else {
 
-            if (typeof passedArgs[passedArgs.length -1] === "function") {
-                var callback = passedArgs.pop();
+            if (callback) {
+                
+                // the callback was removed just prior to checking arg types var callback
 
                 // pass the error to the callback
-                if (err) callback(err, null)
+                if (err) {
+
+                    callback(err, null);
 
                 // Replace the actual callback with the intercept function
                 // and pass the actuall callback
-                else {
+                } else {
                     // Bind the actual callback to the intercept function
-                    passedArgs.push(interceptCB.bind(this, callback, type));  
+                    passedArgs.push(interceptCB.bind(this, callback, type));
                     func.apply(this, passedArgs)
                 }    
             } else {
@@ -205,6 +212,8 @@ function TypedFunc() {
         
         // re attach the err which if hopefully null
         passedArgs.unshift(err);
+
+        if (err) passedArgs = [err];
 
         // call the original callback
         originalCallback.apply(this, passedArgs)

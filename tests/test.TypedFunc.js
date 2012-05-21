@@ -129,12 +129,12 @@ test6("Hi", function(err, returns){
 
 test6(23, function(err, returns){
 	assert.notEqual(err, null, "Test 6c: Should return a non null error to the callback."); count ++;
-	assert.equal(returns, null, "Test 6d: Should not return anthing other than an error to the callback."); count ++;
+	assert.equal(returns, null, "Test 6d: Should not return anything other than an error the callback."); count ++;
 });
 
 test6(null, function(err, returns){
 	assert.notEqual(err, null, "Test 6e: Should return a non null error to the callback.");
-	assert.equal(returns, null, "Test 6f: Should not return anthing other than an error to the callback.");
+	assert.equal(returns, null, "Test 6f: Should not return anything other than an error the callback.");
 });
 
 
@@ -155,12 +155,12 @@ test7("Hi", function(err, returns){
 
 test7(23, function(err, returns){
 	assert.notEqual(err, null, "Test 7c: Should return a non null error to the callback."); count ++;
-	assert.equal(returns, null, "Test 7d: Should not return anthing other than an error to the callback."); count ++;
+	assert.equal(returns, null, "Test 7d: Should not return anything other than an error the callback."); count ++;
 });
 
 test7(null, function(err, returns){
 	assert.notEqual(err, null, "Test 7e: Should return a non null error to the callback."); count ++;
-	assert.equal(returns, null, "Test 7f: Should not return anthing other than an error to the callback."); count ++;
+	assert.equal(returns, null, "Test 7f: Should not return anything other than an error the callback."); count ++;
 });
 
 
@@ -185,13 +185,13 @@ test8(23, function(err, returns){
 
 test8(null, function(err, returns){
 	assert.notEqual(err, null, "Test 8e: Should return a non null error to the callback."); count ++;
-	assert.equal(returns, null, "Test 8f: Should return the input to the callback."); count ++;
+	assert.equal(returns, null, "Test 8f: Should not return anything other than an error to the callback."); count ++;
 });
 
 
 test8({an: "object"}, function(err, returns){
-	assert.notEqual(err, null, "Test 8g: Should return an error - Invalid return type"); count ++;
-	assert.notEqual(returns, null, "Test 8h: Should still return invalid type"); count ++;
+	assert.notEqual(err, null, "Test 8g: Should return an error - Invalid return type."); count ++;
+	assert.equal(returns, null, "Test 8h: Should not return anything other than an error to the callback."); count ++;
 })
 
 
@@ -219,31 +219,32 @@ console.log("9: "+ count + "/" + count+ " Instance specific settings Classical A
 
 
 var test10 = (new TypedFunc()).passes({x: {type: ["string", "number"]},y: {default: "B"}}, function(x, y, callback){
-	callback(null, x)
+	callback(null, [x, y])
 })
 
 
 count = 0;
 
-test10("A", "C", function(err, returns){
+test10("A", function(err, returns){
 	assert.equal(err, null, "Test 10a: Should return null error to the callback."); count ++;
-	assert.equal(typeof returns, "string", "Test 10b: Should return a string to the callback."); count ++;
+	assert.equal(typeof returns[1], "string", "Test 10b: Should return a string to the callback."); count ++;
 });
 
 test10(23, "C", function(err, returns){
 	assert.equal(err, null, "Test 10c: Should return a null error to the callback."); count ++;
-	assert.equal(typeof returns, "number", "Test 10d: Should return a number to the callback."); count ++;
+	assert.equal(typeof returns[0], "number", "Test 10d: Should return a number to the callback."); count ++;
 });
 
 test10(null, "D", function(err, returns){
 	assert.notEqual(err, null, "Test 10e: Should return a non null error to the callback."); count ++;
-	assert.equal(returns, null, "Test 10f: Should return the input to the callback."); count ++;
+	assert.equal(returns, null, "Test 10f: Should not return anything other than an error to the callback."); count ++;
 });
 
 
-test10({an: "object"}, 23, function(err, returns){
+test10({an: "object"}, function(err, returns){
 	assert.notEqual(err, null, "Test 10g: Should return an error - Invalid return type"); count ++;
-	assert.equal(typeof returns, "object", "Test 10h: Should still return invalid type [object]"); count ++;
+	assert.equal(returns, null, "Test 10h: Should not return anything other than an error to the callback."); count ++;
+	
 })
 
 console.log("10: "+ count + "/" + count+ " Instance specific settings Node pass Arg Types & Defaults. ");
