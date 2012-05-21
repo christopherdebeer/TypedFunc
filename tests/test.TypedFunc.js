@@ -112,7 +112,7 @@ console.log("5: "+ count + "/" + count+ " Multi Classical returns with Custom In
 // pass errors to callback functions
 
 TypedFunc({
-	errors: "Node",
+	errors: "Pass",
 	trace: false
 })
 

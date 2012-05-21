@@ -3,7 +3,7 @@
 
 var TypedFuncSettings = {
     setup: {
-        errors: "Throw", // Throw or Node
+        errors: "Throw", // Throw or Pass
         trace: false
     },
     attached: false,
@@ -58,7 +58,7 @@ function TypedFunc() {
         // console.log(passedArgs);
 
         var callabck = false;
-        if (interceptor.settings.errors.toLowerCase() === "node" && typeof passedArgs[passedArgs.length -1] === "function") {
+        if (interceptor.settings.errors.toLowerCase() === "pass" && typeof passedArgs[passedArgs.length -1] === "function") {
             callback = passedArgs.pop();
         }
 
@@ -288,7 +288,7 @@ function TypedFunc() {
 
         var ARGS = Array.prototype.slice.call(arguments);
         processSetup(ARGS);
-        interceptor.settings.errors = "Node";
+        interceptor.settings.errors = "Pass";
         return interceptor;
     }
 
