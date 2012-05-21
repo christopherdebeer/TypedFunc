@@ -200,10 +200,53 @@ console.log("8: "+ count + "/" + count+ " Multi Node convention argument & retur
 
 
 
+/// instance specific settings
 
 
+var test9 = (new TypedFunc()).throws({x: {type: "string"}, y: {default: "B"}}, function(x, y){
+	return {x: x, y: y};
+})
 
 
+count = 0;
+
+assert.equal(test9("x").y, "B" , "Test 9a: Should return default value."); count ++;
+assert.doesNotThrow(function(){ test9("Test"); }, "Test 9b: Should not throw any errors."); count ++;
+assert.doesNotThrow(function(){ test9("B", "A"); }, "Test 9c: Should not thow any errors."); count ++;
+assert.doesNotThrow(function(){ test9("C", 12); }, "Test 9d: Should not throw any errors."); count ++;
+
+console.log("9: "+ count + "/" + count+ " Instance specific settings Classical Arg Types & Defaults. ");
+
+
+var test10 = (new TypedFunc()).passes({x: {type: ["string", "number"]},y: {default: "B"}}, function(x, y, callback){
+	callback(null, x)
+})
+
+
+count = 0;
+
+test10("A", "C", function(err, returns){
+	assert.equal(err, null, "Test 10a: Should return null error to the callback."); count ++;
+	assert.equal(typeof returns, "string", "Test 10b: Should return a string to the callback."); count ++;
+});
+
+test10(23, "C", function(err, returns){
+	assert.equal(err, null, "Test 10c: Should return a null error to the callback."); count ++;
+	assert.equal(typeof returns, "number", "Test 10d: Should return a number to the callback."); count ++;
+});
+
+test10(null, "D", function(err, returns){
+	assert.notEqual(err, null, "Test 10e: Should return a non null error to the callback."); count ++;
+	assert.equal(returns, null, "Test 10f: Should return the input to the callback."); count ++;
+});
+
+
+test10({an: "object"}, 23, function(err, returns){
+	assert.notEqual(err, null, "Test 10g: Should return an error - Invalid return type"); count ++;
+	assert.equal(typeof returns, "object", "Test 10h: Should still return invalid type [object]"); count ++;
+})
+
+console.log("10: "+ count + "/" + count+ " Instance specific settings Node pass Arg Types & Defaults. ");
 
 
 

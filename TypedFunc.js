@@ -32,7 +32,7 @@ function TypedFunc() {
     var func,type,args;
 
     // The Intercept    
-    var interceptor = function () {
+    var interceptor = function () {       
 
         var passedArgs = Array.prototype.slice.call(arguments),
             count = 0,
@@ -45,6 +45,17 @@ function TypedFunc() {
             calleeLine = undefined;
         }
         
+        
+        // if instance settings
+        if (typeof interceptor.settings === 'undefined') {
+            // then get global settings            
+            interceptor.settings = TypedFuncSettings.setup;
+        }
+
+        // console.log("func: ", func);
+        // console.log("type: ", type);
+        // console.log("args: ", args);
+        // console.log(passedArgs);
 
 
         for (var key in args) {
@@ -98,7 +109,8 @@ function TypedFunc() {
         if (isArray(type)) {var typeofType = "arrayOfTypes"}
 
         // if error type is "Throw"
-        if (TypedFuncSettings.setup.errors.toLowerCase() === "throw") {
+
+        if (interceptor.settings.errors.toLowerCase() === "throw" ) {
 
             if (err) showError(err);
             else {
@@ -122,7 +134,7 @@ function TypedFunc() {
             if (typeof passedArgs[passedArgs.length -1] === "function") {
                 var callback = passedArgs.pop();
 
-                // pass the error to thge callback
+                // pass the error to the callback
                 if (err) callback(err, null)
 
                 // Replace the actual callback with the intercept function
@@ -144,8 +156,12 @@ function TypedFunc() {
         var passedArgs = Array.prototype.slice.call(arguments)
         
         var originalCallback = passedArgs[0];
-        var type = passedArgs[1]
+        var type = passedArgs[1];
         var err = passedArgs[2];
+
+        // console.log("origCB: ", originalCallback)
+        // console.log("type: ", type)
+        // console.log("err: ", err)
 
         passedArgs.shift();
         passedArgs.shift();
@@ -195,6 +211,8 @@ function TypedFunc() {
 
     }
 
+
+
     // Throw error
     function showError (err) {
         throw new Error(err);
@@ -216,29 +234,53 @@ function TypedFunc() {
         return false;
     }
 
+    function processSetup (ARGS) {
+        // Init
+        if (ARGS.length === 3) {
+            func = ARGS[2];
+            args = ARGS[1];
+            type = ARGS[0];
+        } else if (ARGS.length === 2) {
+            func = ARGS[1];
+            args = ARGS[0];
+        } else if (ARGS.length === 1) {
+            if (typeof ARGS[0] === 'function') func = ARGS[0];
+            if (typeof ARGS[0] === 'object') {
 
-    // Init
-    if (ARGS.length === 3) {
-        func = ARGS[2];
-        args = ARGS[1];
-        type = ARGS[0];
-    } else if (ARGS.length === 2) {
-        func = ARGS[1];
-        args = ARGS[0];
-    } else if (ARGS.length === 1) {
-        if (typeof ARGS[0] === 'function') func = ARGS[0];
-        if (typeof ARGS[0] === 'object') {
+                // update GLOBAL settings
+                TypedFuncSettings.setup.errors = ARGS[0].errors || TypedFuncSettings.setup.errors;
+                TypedFuncSettings.setup.trace = ARGS[0].trace || TypedFuncSettings.setup.trace;
 
-            // update settings
-            TypedFuncSettings.setup.errors = ARGS[0].errors || TypedFuncSettings.setup.errors;
-            TypedFuncSettings.setup.trace = ARGS[0].trace || TypedFuncSettings.setup.trace;
+                // attach stack trace if required
+                if (TypedFuncSettings.setup.trace && !TypedFuncSettings.attached) {
+                    TypedFuncSettings.attachTrace('TypedFunc');
+                }
 
-            // attach stack trace if required
-            if (TypedFuncSettings.setup.trace && !TypedFuncSettings.attached) {
-                TypedFuncSettings.attachTrace('TypedFunc');
             }
-
         }
+    }
+
+    processSetup(ARGS);
+
+    // Style helper functions
+    // classical - throws error
+    interceptor.throws = function(){
+        interceptor.settings = interceptor.settings || {};
+
+        var ARGS = Array.prototype.slice.call(arguments);
+        processSetup(ARGS);
+        interceptor.settings.errors = "Throw";
+        return interceptor;
+    }
+
+    // node style continuation
+    interceptor.passes = function(){
+        interceptor.settings = interceptor.settings || {};
+
+        var ARGS = Array.prototype.slice.call(arguments);
+        processSetup(ARGS);
+        interceptor.settings.errors = "Node";
+        return interceptor;
     }
 
     // Return the Interceptor   

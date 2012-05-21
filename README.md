@@ -45,12 +45,22 @@ And then require it in your project like so: `var TypedFunc = require("TypedFunc
 
 **Setup for Both Bowser & NodeJS**
 
-You need to specify your preference of convention before using `TypedFunc()` by doing the following:
+You Can specify your preference of convention before using `TypedFunc()` by doing the following:
 
 	TypedFunc({
-		errors: "Throw", // either "Throw" or "Node"
+		errors: "Throw", // either "Throw" or "Pass"
 		trace: false // optional, true - includes line numbers for debugging.
 	})
+
+	var test = TypedFunc( [return Type(s)], [attribute Types & Defaults], [function] );
+	// this will follow the convention set above
+
+
+Or you can do it on a per instance basis, like so: 
+
+	var classicalErrors = (new TypedFunc()).throws( [return Type(s)], [attribute Types & Defaults], [function] );
+
+	var continuationStyle = (new TypedFunc()).passes( [return Type(s)], [attribute Types & Defaults], [function] )
 
 
 The Classical Convention
@@ -61,7 +71,7 @@ The Classical Convention
 You can define any types you like for your arguments: `{x: {type: "xxxx"}}`, a string (ie: "number", "object", "string") denotes a `typeof x === xxxx` check, and an Object - such as a `new Person()` can be defined as `{x: {type: Person}}` and will perform an `x instanceof Person` check.
 	
 	// Create TypedFunc
-	var classical = TypedFunc({x: {type: "string"}}, function(x){
+	var classical = (new TypedFunc()).throws({x: {type: "string"}}, function(x){
 		return x
 	})
 
@@ -78,7 +88,7 @@ You can define any types you like for your arguments: `{x: {type: "xxxx"}}`, a s
 
 If you'd like to be less strict, you could also specify Multiple types for an argument, by putting them in an array, like so:
 	
-	var classical = TypedFunc({x: {type: ["string", "number"]}}, function(x){
+	var classical = (new TypedFunc()).throws({x: {type: ["string", "number"]}}, function(x){
 		return x
 	})
 
@@ -90,7 +100,7 @@ If you'd like to be less strict, you could also specify Multiple types for an ar
 You can define a function as a sprecific Type. This performs a check that your function returns the required type otherwise it will throw an error.
 
 	// Create TypedFunc
-	var classical = TypedFunc("string", {}, function(x){
+	var classical = (new TypedFunc()).throws("string", {}, function(x){
 		return x
 	})
 
@@ -107,7 +117,7 @@ You can define a function as a sprecific Type. This performs a check that your f
 
 Again, you can specify Multiple Types for the return value, by providing an array, like so:
 
-	var classical = TypedFunc(["string", "number"], {}, function(x){
+	var classical = (new TypedFunc()).throws(["string", "number"], {}, function(x){
 		return x
 	})
 
@@ -118,7 +128,7 @@ Again, you can specify Multiple Types for the return value, by providing an arra
 Argument defaults act the same in both conventions, and merely check for `undefined` arguments and if found replace with provided defaults.
 	
 	// Create TypedFunc
-	var classical = TypedFunc({a {default: "A"}}, function(a){
+	var classical = (new TypedFunc()).throws({a {default: "A"}}, function(a){
 		return a
 	})
 
@@ -136,7 +146,7 @@ The Style, follows the `function(err, data) {}` convention from NodeJS. where er
 You can define any types you like for your arguments: `{x: {type: "xxxx"}}`, a string (ie: "number", "object", "string") denotes a `typeof x === xxxx` check, and an Object - such as a `new Person()` can be defined as `{x: {type: Person}}` and will perform an `x instanceof Person` check.
 	
 	// Create TypedFunc
-	var nodeJSConv = TypedFunc({a: {type: "string"}}, function(a, callback){
+	var nodeJSConv = (new TypedFunc()).passes({a: {type: "string"}}, function(a, callback){
 		callback(null, "success : " + a)
 	})
 
@@ -157,7 +167,7 @@ You can define any types you like for your arguments: `{x: {type: "xxxx"}}`, a s
 You can also specify Multiple argument types by providing them as an array, like so:
 
 	// Create TypedFunc
-	var nodeJSConv = TypedFunc({a: {type: ["string", Person]}}, function(a, callback){
+	var nodeJSConv = (new TypedFunc()).passes({a: {type: ["string", Person]}}, function(a, callback){
 		callback(null, a)
 	})
 
@@ -179,7 +189,7 @@ You can also specify Multiple argument types by providing them as an array, like
 Applying the Typed Function return concept to Callback style functions is rather tricky, but TypedFunc achieves this by replacing your callback with an interceptor and evaluating the arguments passed to it. So as can be seen below if the value passed to `callback` is not of the type `number` then a non null error will be passed to the callback.
 	
 	// Create TypedFunc
-	var nodeJSConv = TypedFunc("number", function(a, callback) {
+	var nodeJSConv = (new TypedFunc()).passes("number", function(a, callback) {
 		callback(null, "Success: " + a)
 	})
 
@@ -195,7 +205,7 @@ Applying the Typed Function return concept to Callback style functions is rather
 Argument defaults act the same in both conventions, and merely check for `undefined` arguments and if found replace with provided defaults.
 
 	// Create TypedFunc
-	var nodeJSConv = TypedFunc({a: {default: "B"}}, function(a, callback) {
+	var nodeJSConv = (new TypedFunc()).passes({a: {default: "B"}}, function(a, callback) {
 		callback(null, "Success: " + a)
 	})
 
