@@ -238,7 +238,7 @@ console.log("10: "+ count + "/" + count+ " Instance specific settings Classical 
 
 
 
-var test11 = (new TypedFunc()).passes({x: {type: ["string", "number"]},y: {default: "B"}}, function(x, y, callback){
+var test11 = (new TypedFunc()).passes({x: {type: ["string", "number", Date]},y: {default: "B"}}, function(x, y, callback){
 	callback(null, [x, y])
 })
 
@@ -261,9 +261,10 @@ test11(null, "D", function(err, returns){
 });
 
 
-test11({an: "object"}, function(err, returns){
-	assert.notEqual(err, null, "Test 11g: Should return an error - Invalid return type"); count ++;
-	assert.equal(returns, null, "Test 11h: Should not return anything other than an error to the callback."); count ++;
+test11(new Date(), function(err, returns){
+	assert.equal(err, null, "Test 11g: Should return a null errorto the callabck"); count ++;
+	assert.notEqual(returns, null, "Test 11h: Should not return null to the callback."); count ++;
+	assert.equal(returns[0] instanceof Date, true, "Test 11i: Should return an instanceof Date as the first in returned array."); count ++
 	
 })
 
