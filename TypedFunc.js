@@ -125,11 +125,15 @@ function TypedFunc() {
                         if (typeof returned === type) return returned;
                         showError("Invalid Function type. Should return " + type + " but returned " + typeof returned + ". (Line: "+calleeLine+")");
                     } else if (typeofType === 'arrayOfTypes') {
-                        if (anyOf(typeof returned, type)) return returned;
-                        showError("Invalid Function type. Should return " + type + " but returned " + typeof returned + ". (Line: "+calleeLine+")");
+                        if (anyOf(typeof returned, type) || anyOfMap(type, function(t) {
+                            if (typeof t === "string" && typeof returned === t) return true;
+                            else if (typeof t === 'function' && returned instanceof t) return true;
+                            return false;
+                        })) return returned;
+                        showError("Invalid Function type. Should return any of [" + type + "] but returned " + typeof returned + ". (Line: "+calleeLine+")");
                     } else {
                         if (returned instanceof type) return returned;
-                        showError("Invalid Function type. Should return " + type + " but returned " + returned + ". (Line: "+calleeLine+")");
+                        showError("Invalid Function type. Should return instanceof"  + type + " but returned " + returned + ". (Line: "+calleeLine+")");
                     }
                 } else return returned;
             }
@@ -231,7 +235,12 @@ function TypedFunc() {
         return toString.call(obj) == '[object Array]';
     };
 
-
+    function anyOfMap(types, func) {
+        for (var z in types) {
+            if (func(types[z])) return true;
+        }
+        return false;
+    }
     function anyOf(value, items) {
         if (isArray(items)) {
             for (var x in items) {
